@@ -1,0 +1,80 @@
+{% include 'header.html'%}
+<div class="container mt-5">
+    <div class="row">
+        {% for invoice in invoices :%}
+        {% set stock_manager = getStockManager_by_Invoice(invoice['stock_manager_id'])%}
+        {% set totalPrice = namespace(value=0) %}
+        {% set invoice_items = getInvoiceId_by_invoiceItems(invoice['_id'])%}
+        <div class="col-md-12">
+            <div class="card p-3">
+                <div class="row">
+                    <div class="col-md-3" style="font-size:14px;">Status: <b>{{invoice['status']}}</b></div>
+                    <div class="col-md-3" style="font-size:14px;">Stock Manager: <b>{{stock_manager['name']}}</b></div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <table class="table table-bordered">
+                                <tr>
+                                <th style="font-size:100%;">Product Name</th>
+                                <th style="font-size:100%;">Invoice  Items</th>
+                                <th style="font-size:100%;">Total Price</th>
+                                    <th style="font-size:100%;">Category</th>
+                                    <th style="font-size:100%;">Sub Category</th>
+                                 {% if invoice['status'] == 'Added To Invoice'%}
+                                <th>Remove</th>
+                                 {% endif%}
+
+                                 </tr>
+                                {% for invoice_item in invoice_items%}
+                                {% set products = getProduct_by_invoice_item(invoice_item['product_id'])%}
+                                {% for product in products:%}
+                                 {% set category = get_category_sub_category_id(product['sub_category_id'])%}
+                                 {% set sub_category = get_sub_category_id(product['sub_category_id'])%}
+                                <tr>
+
+                                     <td><img src="static/ProductImages/{{product['product_image']}}" style="max-width:100%;height:50px;"><br>{{product['product_name']}}</td>
+                                     <td style="font-size:100%;">{{invoice_item['quantity']}}</td>
+                                     <td style="font-size:100%;">$ {{float(product['price'])*float(invoice_item['quantity'])}}</td>
+                                     <td style="font-size:100%;">{{category['category_name']}}</td>
+                             <td style="font-size:100%;">{{sub_category['sub_category_name']}}</td>
+                                        {% set totalPrice.value = totalPrice.value +float(product['price'])*float(invoice_item['quantity']) %}
+                                        {% if invoice['status'] == 'Added To Invoice'%}
+                                     <td>
+                                        <a href="removeProduct?invoice_item_id={{invoice_item['_id']}}" class="btn btn-danger" style="font-size:12px">Remove Product</a>
+                                     </td>
+                                    {% endif%}
+                                    {% endfor %}
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td><b>$ {{totalPrice.value}}</b></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% if invoice['status'] == 'Added To Invoice'%}
+                <form action="generateSupplierInvoice" method="post">
+                    <input type="hidden" name="invoice_id" value="{{invoice['_id']}}">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="text" name="name" class="form-control" placeholder="Supplier Name" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="email" name="email" class="form-control" placeholder="Supplier Email" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" name="phone" class="form-control" placeholder="Supplier Phone" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="submit" value="Generate Invoice" class="btn btn-primary w-100">
+                        </div>
+                    </div>
+                </form>
+                {% endif%}
+            </div>
+        </div>
+        {% endfor%}
+    </div>
+</div>
+

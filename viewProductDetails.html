@@ -1,0 +1,52 @@
+{% include 'header.html'%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+          <div class="col-md-4 mt-4">
+              <div class="card p-1">
+                  <img src="/static/ProductImages/{{product['product_image']}}" style="width:100%;height:300px">
+                       <div class="row">
+                      <div class="col-md-6">
+                            <div class="h6 mt-1">{{product['product_name']}}</div>
+                      </div>
+                      <div class="col-md-6">
+                           <div class="h6 mt-1" style="font-size:15px">Price : $ {{product['price']}}</div>
+                      </div>
+                           <div class="col-md-6">
+                           <div class="h6 mt-1" style="font-size:15px">Quantity :  {{product['product_quantity']}}</div>
+                        </div>
+                             <div class="col-md-6">
+                           <div class="h6 mt-1" style="font-size:15px">Threshold :  {{product['threshold_quantity']}}</div>
+                        </div>
+                       </div>
+                  <hr>
+                <div class="">
+                       <div class="h4 mt-1 text-secondary text-center" style="font-size:10px">About Product :</div>
+                  <div class="" style="font-size:12px;overflow:auto;height:20px">{{product['product_description']}}</div>
+                </div>
+                    <div class="card-footer mt-1">
+                        {% if session['role'] =='owner'%}
+                  <a href="editProduct?product_id={{product['_id']}}" class="btn btn-primary w-100 mt-1">Update Product</a>
+                {% endif%}
+                    {% if session['role'] =='stock_manager'%}
+                        <form action="addToInvoice" method="post">
+                            <input type="number" name="quantity" max="{{product['product_quantity']}}" min="1" placeholder="Quantity" class="form-control" required>
+                            <input type="hidden" name="product_id" value="{{product['_id']}}">
+                            <input type="submit" value="Add Invoice" class="btn btn-danger mt-2">
+                        </form>
+                    {% endif%}
+                         {% if session['role'] =='sales_person'%}
+                        <form action="addCart" method="post">
+                            <input type="number" name="quantity" placeholder="Quantity"  max="{{product['product_quantity']}}" min="1" class="form-control">
+                            <input type="hidden" name="product_id" value="{{product['_id']}}">
+                            {% if int(product['product_quantity']) <= int(product['threshold_quantity'])%}
+                            {% else%}
+                            <input type="submit" value="Add To Cart" class="btn btn-danger mt-2">
+                            {% endif%}
+                        </form>
+                    {% endif%}
+                    </div>
+            </div>
+          </div>
+    </div>
+</div>

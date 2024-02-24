@@ -1,0 +1,22 @@
+{% include 'header.html'%}
+<div class="container mt-3">
+<h6 class="text-center mt-1">Suppliers</h6>
+    <table style="width:100%" class="table table-bordered mt-1">
+        <tr>
+            <th style="font-size:12px">Name</th>
+            <th style="font-size:12px">Email</th>
+             <th style="font-size:12px">Phone</th>
+            <th style="font-size:12px">Edit</th>
+        </tr>
+        {% for supplier in suppliers%}
+        <tr>
+            <td><b>{{supplier['name']}}</b></td>
+            <td><b>{{supplier['email']}}</b></td>
+             <td><b>{{supplier['phone']}}</b></td>
+            <td>
+                <a href="editSupplier?supplier_id={{supplier['_id']}}" class="btn btn-primary">Edit Supplier</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>

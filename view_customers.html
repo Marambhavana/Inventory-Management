@@ -1,0 +1,20 @@
+{% include 'header.html'%}
+
+<div class="container mt-5">
+    <div class="row">
+        <table class="table table-bordered text-center">
+            <tr>
+                <th style="font-size:100%;">Customer Name</th>
+                <th style="font-size:100%;">Phone Number</th>
+                 <th style="font-size:100%;">Email</th>
+            </tr>
+             {% for customer in customers :%}
+            <tr>
+                 <td style="font-size:100%;">{{customer['name']}}</td>
+                <td style="font-size:100%;">{{customer['phone']}}</td>
+                <td style="font-size:100%;">{{customer['email']}}</td>
+            </tr>
+             {% endfor %}
+        </table>
+    </div>
+</div>

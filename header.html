@@ -1,0 +1,452 @@
+<head>
+  <title>Inventory</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!--   <title>Navigation Bar With Dropdown Menu</title>-->
+       <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+{% if session['role'] == 'owner'%}
+<style>
+* {
+  margin:0;
+  padding:0;
+}
+<!--body {-->
+<!--  background-color:#0088ff;-->
+<!--  font-family: 'Raleway', sans-serif;-->
+<!--}-->
+#ribbon {
+  position:absolute;
+  background-color:red;
+  color:white;
+  top:40px;
+  left:-30px;
+  width:160px;
+  transform:rotate(-45deg);
+  text-align:center;
+}
+#container {
+  position:relative;
+   line-height:70px;
+  width:100%;
+  margin:1% auto;
+  margin-top:12px;
+    font-size:15px;
+  background-color:black;
+    padding: 0 20px;
+
+  box-shadow: -2px -2px 5px white,2px -2px 5px white;
+}
+#container > nav {
+  width:100%;
+  display:flex;
+  max-height:60px;
+}
+<!--#logo {-->
+
+<!--  color: white;-->
+
+<!--  letter-spacing:1px;-->
+<!--  text-shadow:2px 2px 5px;-->
+<!--}-->
+#container > nav > ul {
+  margin:0;
+  paddding:0;
+  list-style-type:none;
+  display:flex;
+  position:absolute;
+    right:50px;
+/*   min-width:60%; */
+}
+#container > nav > ul > li {
+  line-height:60px;
+  margin: 0 0px;
+  padding:0;
+  text-align:center;
+  display:inline-block;
+
+/*   background-color:green; */
+  min-width:120px;
+
+}
+#container > nav > ul > li > a {
+  position:relative;
+/*   background-color:red; */
+  margin: 0 20px;
+    color:white;
+}
+#container > nav > ul > li:hover {
+  border-bottom: 2px solid white;
+  background-color: #0088ff;
+}
+#container > nav > ul > .dropdown:hover {
+  border-bottom:none;
+}
+#container > nav > ul > .dropdown:hover >  .dd
+{
+  display:block;
+}
+.dropdown:hover > a .fa-caret-down {
+  display:none;
+}
+a {
+  text-decoration:none;
+
+}
+
+#container > nav > ul > li > div {
+  position:absolute;
+  padding: 0 10px;
+
+  background-color:black;
+  display:none;
+  background-color:aliceblue;
+  min-width:100px;
+}
+
+#container > nav > ul > li > div > ul {
+  margin:0px 0 10px 0;
+  padding:0;
+  list-style:none;
+}
+#u_a_c {
+  position:relative;
+  width:100%;
+/*   background-color:red; */
+}
+#up_arrow {
+  position:relative;
+  width:20px;
+  height:10px;
+  left:42%;
+  top:-10px;
+  background-color:aliceblue;
+  transform:rotate(45deg);
+}
+#container > nav > ul > li> div > ul > li:hover {
+  background-color:rgba(0,0,0,0.2);
+}
+#container > nav > ul > li > div > ul > li > a {
+  padding : 5px;
+    color:black;
+}
+</style>
+<html>
+  <body>
+      <div id="container">
+
+      <nav>
+        <div id="logo">
+        Inventory
+        </div>
+        <ul>
+
+              <li><a href="/owner" style="font-size:13px">Owner Home</a></li>
+             <li><a href="/viewCategories" style="font-size:11px">Add/View Category</a></li>
+            <li><a href="/view_sub_Categories" style="font-size:11px">Add/View SubCategory</a></li>
+             <li><a href="/viewSalesPerson" style="font-size:12px">Add/SalesPersons</a></li>
+             <li><a href="/addProduct"  style="font-size:12px">Add Product</a></li>
+             <li><a href="/viewProducts"  style="font-size:12px">View Products</a></li>
+            <li><a href="/view_customers"  style="font-size:12px">Customers</a></li>
+            <li><a href="/viewCustomerInvoice?status=Invoice Generated"  style="font-size:12px">Customer Invoices</a></li>
+            <li><a href="/LessItems"  style="font-size:12px">Less Items</a></li>
+          <li><a href="/logout" style="font-size:12px">Logout</a></li>
+
+
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>
+
+{% elif session['role'] =='sales_person'%}
+<style>
+* {
+  margin:0;
+  padding:0;
+}
+<!--body {-->
+<!--  background-color:#0088ff;-->
+<!--  font-family: 'Raleway', sans-serif;-->
+<!--}-->
+#ribbon {
+  position:absolute;
+  background-color:red;
+  color:white;
+  top:40px;
+  left:-30px;
+  width:160px;
+  transform:rotate(-45deg);
+  text-align:center;
+}
+#container {
+  position:relative;
+   line-height:70px;
+  width:100%;
+  margin:1% auto;
+  margin-top:12px;
+    font-size:15px;
+  background-color:black;
+    padding: 0 20px;
+
+  box-shadow: -2px -2px 5px white,2px -2px 5px white;
+}
+#container > nav {
+  width:100%;
+  display:flex;
+  max-height:60px;
+}
+<!--#logo {-->
+
+<!--  color: white;-->
+
+<!--  letter-spacing:1px;-->
+<!--  text-shadow:2px 2px 5px;-->
+<!--}-->
+#container > nav > ul {
+  margin:0;
+  paddding:0;
+  list-style-type:none;
+  display:flex;
+  position:absolute;
+    right:50px;
+/*   min-width:60%; */
+}
+#container > nav > ul > li {
+  line-height:60px;
+  margin: 0 0px;
+  padding:0;
+  text-align:center;
+  display:inline-block;
+
+/*   background-color:green; */
+  min-width:120px;
+
+}
+#container > nav > ul > li > a {
+  position:relative;
+/*   background-color:red; */
+  margin: 0 20px;
+    color:white;
+}
+#container > nav > ul > li:hover {
+  border-bottom: 2px solid white;
+  background-color: #0088ff;
+}
+#container > nav > ul > .dropdown:hover {
+  border-bottom:none;
+}
+#container > nav > ul > .dropdown:hover >  .dd
+{
+  display:block;
+}
+.dropdown:hover > a .fa-caret-down {
+  display:none;
+}
+a {
+  text-decoration:none;
+
+}
+
+#container > nav > ul > li > div {
+  position:absolute;
+  padding: 0 10px;
+
+  background-color:black;
+  display:none;
+  background-color:aliceblue;
+  min-width:100px;
+}
+
+#container > nav > ul > li > div > ul {
+  margin:0px 0 10px 0;
+  padding:0;
+  list-style:none;
+}
+#u_a_c {
+  position:relative;
+  width:100%;
+/*   background-color:red; */
+}
+#up_arrow {
+  position:relative;
+  width:20px;
+  height:20px;
+  left:42%;
+  top:-10px;
+  background-color:aliceblue;
+  transform:rotate(45deg);
+}
+#container > nav > ul > li> div > ul > li:hover {
+  background-color:rgba(0,0,0,0.2);
+}
+#container > nav > ul > li > div > ul > li > a {
+  padding : 5px;
+    color:black;
+}
+</style>
+<html>
+  <body>
+      <div id="container">
+      <nav>
+        <div id="logo">
+        Inventory
+        </div>
+        <ul>
+          <li><a href="/sales_person" style="font-size:14px">SalesPerson Home</a></li>
+             <li><a href="/viewProducts"  style="font-size:14px">View Products</a></li>
+            <li><a href="/viewCustomerInvoice?status=cart"  style="font-size:14px">Cart</a></li>
+            <li><a href="/view_customers"  style="font-size:14px">Customer Details</a></li>
+            <li><a href="/viewCustomerInvoice?status=Invoice Generated"  style="font-size:14px">Customer Invoices</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>
+{% else%}
+<style>
+* {
+  margin:0;
+  padding:0;
+}
+<!--body {-->
+<!--  background-color:#0088ff;-->
+<!--  font-family: 'Raleway', sans-serif;-->
+<!--}-->
+#ribbon {
+  position:absolute;
+  background-color:red;
+  color:white;
+  top:40px;
+  left:-30px;
+  width:160px;
+  transform:rotate(-45deg);
+  text-align:center;
+}
+#container {
+  position:relative;
+  width:90%;
+  margin:2% auto;
+  background-color:black;
+  box-shadow: -2px -2px 5px white,2px -2px 5px white;
+}
+#container > nav {
+  width:100%;
+  display:flex;
+  max-height:60px;
+}
+#logo {
+  line-height:60px;
+  font-size:30px;
+  padding: 0 50px;
+  color: white;
+  width:40%;
+  letter-spacing:2px;
+  text-shadow:2px 2px 5px;
+}
+#container > nav > ul {
+  margin:0;
+  paddding:0;
+  list-style-type:none;
+  display:flex;
+  position:absolute;
+    right:50px;
+/*   min-width:60%; */
+}
+#container > nav > ul > li {
+  line-height:60px;
+  margin: 0 0px;
+  padding:0;
+  text-align:center;
+  display:inline-block;
+
+/*   background-color:green; */
+  min-width:120px;
+
+}
+#container > nav > ul > li > a {
+  position:relative;
+/*   background-color:red; */
+  margin: 0 20px;
+    color:white;
+}
+#container > nav > ul > li:hover {
+  border-bottom: 2px solid white;
+  background-color: #0088ff;
+}
+#container > nav > ul > .dropdown:hover {
+  border-bottom:none;
+}
+#container > nav > ul > .dropdown:hover >  .dd
+{
+  display:block;
+}
+.dropdown:hover > a .fa-caret-down {
+  display:none;
+}
+a {
+  text-decoration:none;
+
+}
+
+#container > nav > ul > li > div {
+  position:absolute;
+  padding: 0 10px;
+
+  background-color:black;
+  display:none;
+  background-color:aliceblue;
+  min-width:100px;
+}
+
+#container > nav > ul > li > div > ul {
+  margin:0px 0 10px 0;
+  padding:0;
+  list-style:none;
+}
+#u_a_c {
+  position:relative;
+  width:100%;
+/*   background-color:red; */
+}
+#up_arrow {
+  position:relative;
+  width:20px;
+  height:20px;
+  left:42%;
+  top:-10px;
+  background-color:aliceblue;
+  transform:rotate(45deg);
+}
+#container > nav > ul > li> div > ul > li:hover {
+  background-color:rgba(0,0,0,0.2);
+}
+#container > nav > ul > li > div > ul > li > a {
+  padding : 5px;
+    color:black;
+}
+</style>
+<html>
+  <body>
+      <div id="container">
+
+      <nav>
+        <div id="logo">
+          Inventory
+        </div>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/oLogin">Owner</a></li>
+            <li><a href="/spLogin">Sales Person</a></li>
+
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>
+{% endif%}

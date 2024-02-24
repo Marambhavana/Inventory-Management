@@ -1,0 +1,53 @@
+{% include 'header.html'%}
+<script>
+ function validate(){
+        let sub_category_name = document.getElementById("sub_category_name").value
+        if(sub_category_name==""){
+            alert("Enter  SubCategory Name")
+            return false;
+        }
+        return true
+    }
+</script>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card p-4 mt-5">
+              <form action="addSubCategory1" method="post" onsubmit="return validate()">
+                  <div class="text-center h3">Add SubCategory</div>
+                <div class="form-group">
+                    <label for="sub_category_name">SubCategory Name</label>
+                    <input type="text" name="sub_category_name" id="sub_category_name" placeholder="Sub Category Name"  class="form-control p-2 mt-1">
+                  </div>
+                <div class="form-group">
+                    <label for="category_id">Choose Category</label>
+                      <select name="category_id" id="category_id" class="form-control mt-1">
+                        {% for category in categories%}
+                        <option value="{{category['_id']}}">{{category['category_name']}}</option>
+                        {% endfor%}
+                      </select>
+                </div>
+                  <input type="submit" value="Add SubCategory" class="btn btn-primary w-100 mt-3">
+              </form>
+        </div>
+        </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-4">
+              <h6 class="text-center mt-1">Sub Categories</h6>
+            <table style="width:100%" class="table table-bordered mt-1">
+                <tr>
+                    <th style="font-size:12px">SubCategory</th>
+                    <th style="font-size:12px">Category Name</th>
+                </tr>
+                {% for sub_category in sub_categories%}
+                {% set category = get_category_by_ID(sub_category['category_id'])%}
+                <tr>
+                    <td><b>{{sub_category['sub_category_name']}}</b></td>
+                    <td><b>{{category['category_name']}}</b></td>
+                </tr>
+                {% endfor %}
+            </table>
+          </div>
+    </div>
+
+</div>

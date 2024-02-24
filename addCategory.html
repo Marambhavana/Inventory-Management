@@ -1,0 +1,26 @@
+{% include 'header.html'%}
+<script>
+ function validate(){
+        let category_name = document.getElementById("category_name").value
+        if(category_name==""){
+            alert("Enter  Category")
+            return false;
+        }
+        return true
+    }
+</script>
+<div class="row mt-5">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 mt-5">
+        <div class="card p-4 mt-5">
+            <form action="addCategory1" method="post" onsubmit="return validate()">
+                <div class="text-center h3">Add Category</div>
+                <div class="form-group">
+                    <label for="category_name"></label>
+                    <input type="text" name="category_name" id="category_name" placeholder="Category Name"  class="form-control p-2 mt-1">
+                </div>
+                <input type="submit" value="Add Category" class="btn btn-primary w-100 mt-3">
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+{% include 'header.html'%}
+<div class="container">
+    <form action="viewProducts">
+        <div class="row p-2" style="background-color:black">
+            <div class="col-md-4">
+                <div class="text-white text-center" >Category</div>
+                    <select name="category_id" id="category_id" class="form-control mt-1"  onchange="this.form.submit()">
+                        <option value="all">All</option>
+                         {% for category in  categories: %}
+                        <option value="{{category['_id']}}"
+                                {% if str(category_id) == str(category['_id']) :  %}
+                                selected
+                                {% endif%}
+                        >{{category['category_name']}}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+            <div class="col-md-3">
+                <div class="text-white text-center" >Sub Category</div>
+                    <select id="sub_category_id" name="sub_category_id"   class="form-control mt-1" >
+                        <option value="all">All</option>
+                        {% for sub_category in  sub_categories: %}
+                        <option value="{{sub_category['_id']}}"
+                                {% if str(sub_category_id) == str(sub_category['_id']) :  %}
+                                selected
+                                {% endif%}
+                        >{{sub_category['sub_category_name']}}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+            <div class="col-md-4">
+                <div class="text-white text-center" >Product Name</div>
+                <input type="search" name="product_name" id="product_name" placeholder="Search Product" class="form-control p-2" onchange="this.form.submit()"   value ="{{product_name}}" >
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <div class="row">
+        {% for product in products: %}
+         {% set sub_category = get_sub_category_by_products(product['sub_category_id'])%}
+        {% set category = get_category_by_products(sub_category['category_id'])%}
+            <div class="col-md-4 mt-5">
+                <div class="card p-2  m-2">
+                 <a href="viewProductDetails?product_id={{product['_id']}}" class="nav-link">   <img src="../static/ProductImages/{{product['product_image']}}" style="height:200px; max-width:100%"></a>
+                    <a href="viewProductDetails?product_id={{product['_id']}}" class="nav-link"> <div class="text-center h4">{{product['product_name']}}</div></a>
+                    <div class="row">
+                        <div class="col-md-6 h6" style="font-size:12px">Available : {{product['product_quantity']}}</div>
+                        <div class="col-md-6 h6" style="font-size:12px">Price : $ {{product['price']}}</div>
+                         <div class="col-md-6 h6" style="font-size:12px">category: {{category['category_name']}}</div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
